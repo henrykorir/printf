@@ -21,7 +21,7 @@ int _printf(const char *format, ...)
 	if (format == NULL)
 		return (-1);
 	va_start(ap, format); /* make ap point to 1st unnamed arg */
-	for (p = (char *)format; p != NULL && *p != '\0'; p++)
+	for (p = format; p != NULL && *p != '\0'; p++)
 	{
 		if (*p != '%')
 		{
@@ -42,7 +42,10 @@ int _printf(const char *format, ...)
 					count = print_and_count(sval, count);
 				break;
 			default:
-				count = print_and_count(p, count);
+				if (*p != '\0')
+					count = print_and_count(p, count);
+				else
+					return (count);
 				break;
 		}
 	}
