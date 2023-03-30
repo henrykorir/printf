@@ -2,7 +2,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
-#include <limits.h>
 #include "main.h"
 /**
  * _printf - prints formatted output
@@ -12,50 +11,41 @@
  *
  * Return: number of characters printed
  */
-int _printf(const char *format, ...)
+int _printf(char *format, ...)
 {
-	va_list ap;
-	const char *p = format;
-	unsigned long long int count = 0;
-	char c, *s;
-	int x;
+	va_list ap; /* points to each unnamed arg in turn */
+	char c, *p, *sval;
+	int count = 0;
 
-	va_start(ap, format);
-	while (p && *p)
+	if (format == NULL)
+		return (-1);
+	va_start(ap, format); /* make ap point to 1st unnamed arg */
+	for (p = format; p != NULL && *p != '\0'; p++)
 	{
-		if (*p == '%')
+		if (*p != '%')
 		{
-			p++;
-			switch (*p)
-			{
-				case 'c':
-					c = va_arg(ap, int);
-					count = print_and_count(&c, count);
-					break;
-				case 's':
-					s = va_arg(ap, char *);
-					if (s == NULL)
-					{
-						write(1, "(null)", 6);
-						count += 6;
-						break;
-					}
-					write(1, s, strlen(s));
-					count += strlen(s);
-					break;
-				case '%':
-					c = '%';
-					count = print_and_count(&c, count);
-					break;
-				default:
-					count = print_and_count(p, count);
-			}
-		}
-		else
 			count = print_and_count(p, count);
-		p++;
+			continue;
+		}
+		switch (*++p)
+		{
+			case 'c':
+				c = va_arg(ap, int);
+				count = print_and_count(&c, count);
+				break;
+			case 's':
+				sval = va_arg(ap, char *);
+				if (sval == NULL)
+					sval = "(null)";
+				for (; *sval; sval++)
+					count = print_and_count(sval, count);
+				break;
+			default:
+				count = print_and_count(p, count);
+				break;
+		}
 	}
-	va_end(ap);
+	va_end(ap); /* clean up when done */
 	return (count);
 }
 /**
