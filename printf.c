@@ -21,7 +21,7 @@ int _printf(const char *format, ...)
 	if (format == NULL)
 		return (-1);
 	va_start(ap, format); /* make ap point to 1st unnamed arg */
-	for (p = format; p != NULL && *p != '\0'; p++)
+	for (p = (char *)format; p != NULL && *p != '\0'; p++)
 	{
 		if (*p != '%')
 		{
