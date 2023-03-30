@@ -43,6 +43,10 @@ int _printf(const char *format, ...)
 					write(1, s, strlen(s));
 					count += strlen(s);
 					break;
+				case '%':
+					c = '%';
+					count = print_and_count(&c, count);
+					break;
 				default:
 					count = print_and_count(p, count);
 			}
