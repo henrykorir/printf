@@ -1,7 +1,9 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
-#include "printf.h"
+#include <stdlib.h>
+#include <limits.h>
+#include "main.h"
 /**
  * _printf - prints formatted output
  *
@@ -14,8 +16,9 @@ int _printf(const char *format, ...)
 {
 	va_list ap;
 	const char *p = format;
-	unsigned int count = 0;
+	unsigned long long int count = 0;
 	char c, *s;
+	int x;
 
 	va_start(ap, format);
 	while (p && *p)
@@ -27,7 +30,7 @@ int _printf(const char *format, ...)
 			{
 				case 'c':
 					c = va_arg(ap, int);
-					count = print_and_count(c, count);
+					count = print_and_count(&c, count);
 					break;
 				case 's':
 					s = va_arg(ap, char *);
@@ -40,14 +43,12 @@ int _printf(const char *format, ...)
 					write(1, s, strlen(s));
 					count += strlen(s);
 					break;
-				case '%':
-					c = '%';
-					count = print_and_count(c, count);
-					break;
+				default:
+					count = print_and_count(p, count);
 			}
 		}
 		else
-			count = print_and_count(*p, count);
+			count = print_and_count(p, count);
 		p++;
 	}
 	va_end(ap);
@@ -61,9 +62,9 @@ int _printf(const char *format, ...)
  *
  * Return: total characters
  */
-int print_and_count(char c, int count)
+int print_and_count(char *c, int count)
 {
-	write(1, &c, 1);
+	write(1, c, 1);
 	count++;
 
 	return (count);
