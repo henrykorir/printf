@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "main.h"
 /**
  * _printf - prints formatted output
@@ -11,7 +12,7 @@
  *
  * Return: number of characters printed
  */
-int _printf(char *format, ...)
+int _printf(const char *format, ...)
 {
 	va_list ap; /* points to each unnamed arg in turn */
 	char c, *p, *sval;
@@ -20,7 +21,7 @@ int _printf(char *format, ...)
 	if (format == NULL)
 		return (-1);
 	va_start(ap, format); /* make ap point to 1st unnamed arg */
-	for (p = format; p != NULL && *p != '\0'; p++)
+	for (p = (char *)format; p != NULL && *p != '\0'; p++)
 	{
 		if (*p != '%')
 		{
