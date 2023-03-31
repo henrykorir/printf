@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 		{
 			case 'c':
 				c = va_arg(ap, int);
-				if (c != '\0')
+				if (c >= ' ' && c <= '~')
 					count = print_and_count(&c, count);
 				break;
 			case 's':
