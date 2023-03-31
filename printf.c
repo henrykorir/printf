@@ -32,9 +32,8 @@ int _printf(const char *format, ...)
 		{
 			case 'c':
 				c = va_arg(ap, int);
-				if (c == ((char)NULL))
-					break;
-				count = print_and_count(&c, count);
+				if (c != '\0')
+					count = print_and_count(&c, count);
 				break;
 			case 's':
 				sval = va_arg(ap, char *);
@@ -49,7 +48,7 @@ int _printf(const char *format, ...)
 			default:
 				if (p != NULL || *p != '\0')
 				{
-					count = print_and_count(p - 1, count);
+					/*count = print_and_count(p - 1, count);*/
 					count = print_and_count(p, count);
 					break;
 				}
