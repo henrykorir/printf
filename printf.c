@@ -45,7 +45,7 @@ int _printf(const char *format, ...)
 				count = print_and_count(p, count);
 				break;
 			default:
-				if (p != NULL)
+				if (p != NULL && *p != '\0')
 					count = print_and_count(p, count);
 				break;
 		}
