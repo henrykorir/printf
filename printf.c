@@ -15,8 +15,8 @@
 int _printf(const char *format, ...)
 {
 	va_list ap; /* points to each unnamed arg in turn */
-	char c, *p, *sval;
-	int count = 0;
+	char *p, *sval;
+	int c, count = 0;
 
 	if (format == NULL || *format == '\0' || (strlen(format) == 1 && *format == '%'))
 		return (-1);
@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 		{
 			case 'c':
 				c = va_arg(ap, int);
-				if (c >= ' ' && c <= '~')
+				if (c != 0)
 					count = print_and_count(&c, count);
 				break;
 			case 's':
@@ -46,7 +46,7 @@ int _printf(const char *format, ...)
 				count = print_and_count(p, count);
 				break;
 			default:
-				if (p != NULL || *p != '\0')
+				if (p != NULL || *p != '\0' && (p - 1) != NULL && *(p - 1) != '\0')
 				{
 					count = print_and_count(p - 1, count);
 					count = print_and_count(p, count);
