@@ -18,7 +18,7 @@ int _printf(const char *format, ...)
 	char c, *p, *sval;
 	int count = 0;
 
-	if (format == NULL)
+	if (format == NULL || *format == '\0' || (strlen(format) == 1 && *format == '%'))
 		return (-1);
 	va_start(ap, format); /* make ap point to 1st unnamed arg */
 	for (p = (char *)format; p != NULL && *p != '\0'; p++)
