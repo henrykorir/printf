@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 		{
 			case 'c':
 				c = va_arg(ap, int);
-				if ((int)c == 0)
+				if (c == '\0')
 					break;
 				count = print_and_count(&c, count);
 				break;
