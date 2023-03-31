@@ -53,7 +53,6 @@ int _printf(const char *format, ...)
 					count = print_and_count(p, count);
 					break;
 				}
-				return (count);
 		}
 	}
 	va_end(ap); /* clean up when done */
