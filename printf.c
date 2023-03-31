@@ -30,6 +30,8 @@ int _printf(const char *format, ...)
 		}
 		switch (*++p)
 		{
+			case '\0':
+				break;
 			case 'c':
 				c = va_arg(ap, int);
 				if ((int)c > 0)
@@ -46,11 +48,9 @@ int _printf(const char *format, ...)
 				count = print_and_count(p, count);
 				break;
 			default:
-				if (p != NULL || *p != '\0')
-				{
-					count = print_and_count(p, count);
-					break;
-				}
+				count = print_and_count(p - 1, count);
+				count = print_and_count(p, count);
+				break;
 		}
 	}
 	va_end(ap); /* clean up when done */
