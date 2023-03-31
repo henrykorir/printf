@@ -23,7 +23,7 @@ int _printf(const char *format, ...)
 	va_start(ap, format); /* make ap point to 1st unnamed arg */
 	for (p = (char *)format; p != NULL && *p != '\0'; p++)
 	{
-		if (*p != '%')
+		if (*p != '%' && *p != '\0')
 		{
 			count = print_and_count(p, count);
 			continue;
@@ -32,6 +32,8 @@ int _printf(const char *format, ...)
 		{
 			case 'c':
 				c = va_arg(ap, int);
+				if ((int)c == 0)
+					break;
 				count = print_and_count(&c, count);
 				break;
 			case 's':
@@ -41,15 +43,16 @@ int _printf(const char *format, ...)
 				for (; *sval; sval++)
 					count = print_and_count(sval, count);
 				break;
+			case '%':
+				count = print_and_count(p, count);
+				break;
 			default:
 				if (*p != '\0')
-					count = print_and_count(p, count);
-				else
 				{
-					count = print_and_count(p - 1, count);
-					return (count);
+					count = print_and_count(p, count);
+					break;
 				}
-				break;
+				return (count);
 		}
 	}
 	va_end(ap); /* clean up when done */
