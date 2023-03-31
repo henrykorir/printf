@@ -34,7 +34,7 @@ int _printf(const char *format, ...)
 				break;
 			case 'c':
 				c = va_arg(ap, int);
-				if ((int)c > 0)
+				if (c > 0)
 					count = print_and_count(&c, count);
 				break;
 			case 's':
